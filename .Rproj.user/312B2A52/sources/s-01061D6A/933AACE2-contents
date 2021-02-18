@@ -1,0 +1,58 @@
+library(tidyverse)
+
+glimpse(mtcars)
+
+#practice with select
+mtcars %>% 
+  select()
+
+mtcars %>% select(cyl, disp, hp)
+mtcars %>% select(am:carb)
+#select everything in between
+select(mtcars, am:carb)
+#renaming column
+select(mtcars, hello_world = mpg)
+
+select(mtcars, starts_with("d"))
+
+#filtering practice
+mtcars %>% 
+  filter(mpg < 20 & mpg > 14)
+
+mtcars %>% 
+  filter(cyl == 6)
+
+mtcars %>% 
+  filter(mpg > 20 | disp < 200)
+
+
+# mutate practice
+mtcars %>% 
+  select(., mpg) %>% 
+  mutate(., mpg_x2 = (mpg * 2)) 
+
+mtcars %>% 
+  select(., mpg) %>% 
+  mutate(., mpg_c = mpg - mean(mpg)) 
+
+mtcars %>% 
+  select(., mpg) %>% 
+  mutate(., value = if_else(mpg > 18, "good", "bad"))
+
+
+# summarize practice 
+# always compresses df 
+mtcars %>% 
+  summarize(., mean_mpg = mean(mpg))
+
+mtcars %>% 
+  group_by(., cyl) %>%
+  summarize(., mean_mpg = mean(mpg))
+
+mtcars %>% 
+  group_by(., cyl) %>%
+  summarize(., mean_mpg = mean(mpg), 
+            sd_mpg = sd(mpg), 
+            min_mpg = min(mpg), 
+            max_mpg = max(mpg)) %>%
+  knitr::kable()
